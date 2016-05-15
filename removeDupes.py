@@ -30,3 +30,7 @@ for filename in os.listdir('.'):
             remlist.append(filename)
         else:
             hashdict.append(hash_file(filename))
+
+for filename in remlist:
+    os.remove(filename)
+    print("removed",filename)
