@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # This Script will find and download all available pdfs for classes PTP4 and PEP4 of SS2016
 #
 # Author: Patrick Nisble
