@@ -25,7 +25,7 @@ for key in to_scan:
     soup = BeautifulSoup(p,'lxml')
     links = soup.find_all("a",class_="pdflink")
     for elem in links:
-        if "uebungen" in str(elem.get('href')) and elem.get('href')[24:] !in already_fetched:
+        if "uebungen" in str(elem.get('href')) and elem.get('href')[24:] not in already_fetched:
             print(elem.get('href')[24:])
-            #rq.urlretrieve(uni_url + elem.get('href'),
-            #    "/home/patrick/Downloads/%s-" % key + elem.contents[0])
+            rq.urlretrieve(uni_url + elem.get('href'),
+                "/home/patrick/Downloads/%s-" % key + elem.contents[0])
