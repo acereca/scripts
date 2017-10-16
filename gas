@@ -1,0 +1,11 @@
+--2017-08-30 11:21:33--  http://api.twitch.tv/api/users/geekandsundry/followed/hosting?client_id=taf50me5uagadpa70zl5rf8vp0j3d96
+Auflösen des Hostnamens api.twitch.tv… 184.25.252.229
+Verbindungsaufbau zu api.twitch.tv|184.25.252.229|:80 … verbunden.
+HTTP-Anforderung gesendet, auf Antwort wird gewartet … 200 OK
+Länge: 12704 (12K) [application/json]
+Wird in »hosting?client_id=taf50me5uagadpa70zl5rf8vp0j3d96« gespeichert.
+
+     0K .......... ..                                         100% 11,7M=0,001s
+
+2017-08-30 11:21:34 (11,7 MB/s) - »hosting?client_id=taf50me5uagadpa70zl5rf8vp0j3d96« gespeichert [12704/12704]
+

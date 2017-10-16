@@ -7,18 +7,19 @@ from bs4 import BeautifulSoup
 import urllib.request as rq
 import sys
 import subprocess
-import youtube_dl
 
-channel_url = "https://www.youtube.com/" + sys.argv[1]
+channel_url = "https://www.youtube.com/user/SensualMusique1"
 
-r = ["youtube-dl -g", r"youtube.com"] + sys.argv[3:]
+r = ["streamlink", "--player=mpv --volume=50", r"youtube.com"] + sys.argv[1:]
 
 p = rq.urlopen(channel_url).read()
 soup = BeautifulSoup(p,'html.parser')
 links = soup.find_all("a")
 for elem in links:
-    if isinstance(elem.get('title'), str) and sys.argv[2] in elem.get("title"):
-        r[1] += elem.get('href')
+    if isinstance(elem.get('title'), str) and "Good Life Radio" in elem.get("title"):
+        r[2] += elem.get('href')
         break
 
-print(r[1])
+print(r)
+
+subprocess.call(r)

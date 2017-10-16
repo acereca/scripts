@@ -21,13 +21,13 @@ def main(argv):
     except getopt.GetoptError:
         print (helpstr)
         sys.exit(2)
-   
+
     if len(args) == 1:
         channel = args[0]
     else:
         print(helpstr)
         sys.exit(2)
- 
+
     for opt, arg in opts:
         if opt == "-h":
             print(helpstr)
@@ -39,7 +39,7 @@ def main(argv):
         print('could not fetch data for channel ' + channel)
         sys.exit(2)
 
-    print(kraken_data['stream']['_id'])
+    print(kraken_data['stream']['channel']['status'])
 
 
 if __name__ == "__main__":
