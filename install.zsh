@@ -1,3 +1,3 @@
 #! /usr/bin/zsh
 
-mv ./ssc $HOME/.local/bin
+cp ./ssc $HOME/.local/bin
