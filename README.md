@@ -1,6 +1,25 @@
 # Scripts
 Script collection, from a to z.
 
-Mostly this and that to transfer between setups.
+Contained here are mostly independent small scripts.
 
-**Note**: the scripts used will mostly be for zsh not for bash or sh. (See #! in each file) 
+## Install
+
+```zsh
+./install.zsh
+```
+
+## Usage
+
+run any script contained inside this folder with
+
+```zsh
+ssc <script-name>
+```
+
+where `<script-name>` is the files base-name (w/o extension)
+e.g.:
+
+```zsh
+ssc select.music
+```
