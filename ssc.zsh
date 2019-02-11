@@ -6,7 +6,9 @@ ssc() {
     then 
         cd $HOME/github/scripts/
     else
-        $HOME/github/scripts/$1.* $2;
+        file=$1;
+        shift;
+        $HOME/github/scripts/$file.* $*;
     fi
 }
 autoload ssc
