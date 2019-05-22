@@ -13,7 +13,7 @@ class Stream(object):
         subprocess.run([Stream.notify_cmd, '-r', '10010', '-i', icon, msg])
 
     def run(self):
-        subprocess.Popen([Stream.player, self.url, *self.options], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen([Stream.player, self.url, *self.options], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
         self.notify(f'started live playback of:<br/>{self.name}')
         with open('/home/patrick/.config/mpv/nowplaying', 'w') as f:
             f.write(self.name)

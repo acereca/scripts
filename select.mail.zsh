@@ -2,13 +2,14 @@
 
 options="Private\nPublic\nGit\nStud\nKIP"
 
-TERM='/usr/local/bin/st'
+TERM='/usr/bin/kitty'
+MUTT='neomutt'
 option=$(echo -e ${options} | rofi -dmenu -p 'Mail')
 
 case $option in
-    Private) MUTTPROFILE=~/.mutt/muttrc.private.private ${TERM} -e mutt &;;
-    Public) MUTTPROFILE=~/.mutt/muttrc.public.private ${TERM} -e mutt &;;
-    Stud) MUTTPROFILE=~/.mutt/muttrc.stud.private ${TERM} -e mutt &;;
-    Git) MUTTPROFILE=~/.mutt/muttrc.git.private ${TERM} -e mutt &;;
-    KIP) MUTTPROFILE=~/.mutt/muttrc.kip.private ${TERM} -e mutt &;;
+    Private) MUTT_PROFILE=~/.config/mutt/private.muttrc ${TERM} -e ${MUTT} &;;
+    Public) MUTT_PROFILE=~/.config/mutt/public.muttrc ${TERM} -e ${MUTT} &;;
+    Stud) MUTT_PROFILE=~/.config/mutt/stud.muttrc ${TERM} -e ${MUTT} &;;
+    Git) MUTT_PROFILE=~/.config/mutt/git.muttrc ${TERM} -e ${MUTT} &;;
+    KIP) MUTT_PROFILE=~/.config/mutt/kip.muttrc ${TERM} -e ${MUTT} &;;
 esac
