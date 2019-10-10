@@ -1,8 +1,9 @@
 #! /usr/bin/env python3
 import subprocess
-import abc
 import rofi
-import sys, inspect
+
+streamlist = []
+
 
 class Stream(object):
     player = 'mpv'
@@ -13,24 +14,30 @@ class Stream(object):
         subprocess.run([Stream.notify_cmd, '-r', '10010', '-i', icon, msg])
 
     def run(self):
-        subprocess.Popen([Stream.player, self.url, *self.options], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        subprocess.Popen(
+            [Stream.player, self.url, *self.options])
         self.notify(f'started live playback of:<br/>{self.name}')
         with open('/home/patrick/.config/mpv/nowplaying', 'w') as f:
-            f.write(self.name)
+            f.write(self.name.split(": ")[1])
 
     @staticmethod
     def kill():
         subprocess.run(['pkill', Stream.player])
         with open('/home/patrick/.config/mpv/nowplaying', 'r+') as f:
-            Stream.notify(f'stopped live playback of:<br/>{f.readline()}', 'player_stop')
+            Stream.notify(
+                f'stopped live playback of:<br/>{f.readline()}',
+                'player_stop')
             f.write('')
 
     def __init__(self, name: str, url: str):
-        self.name = name
+        self.name = f"{len(streamlist)}: " + name
         self.url = url
+        streamlist.append(self)
+
 
 class YTStream(Stream):
     options = ['--no-video', '--ytdl-format=94']
+
 
 class TWStream(Stream):
     options = ['--ytdl-format=audio_only']
@@ -38,33 +45,29 @@ class TWStream(Stream):
 
 # Create and append all Streams
 
-streamlist = [
-    YTStream(
-        "Best of Epic Music",
-        "https://www.youtube.com/channel/UC3zwjSYv4k5HKGXCHMpjVRg/live"),
+YTStream(
+    "Future House Radio",
+    "https://www.youtube.com/watch?v=1V8loYV_IKo")
 
-    TWStream(
-        "Monstercat Radio",
-        "https://twitch.tv/monstercat"),
-    
-    YTStream(
-        "Electro Swing Radio", 
-        "https://www.youtube.com/channel/UCl-Rh0PxCl0NblEbXIjeK3w/live"),
-    
-    YTStream(
-        "The Good Life Radio",
-        "https://www.youtube.com/channel/UCVeETS7uZTAARqvv2zssZCw/live")
-]
+TWStream(
+    "Monstercat Radio",
+    "https://twitch.tv/monstercat")
 
-        
+YTStream(
+    "Random Chiptune Radio",
+    "https://www.youtube.com/watch?v=DZrg-dihRNo")
+
+YTStream(
+    "Epic Music Radio",
+    "https://www.youtube.com/channel/UC3zwjSYv4k5HKGXCHMpjVRg/live")
+
 # rofi part
-
 r = rofi.Rofi()
-i, key = r.select('Stream', [o.name for o in streamlist] + ['','-> kill'])
+i, key = r.select('Stream', [o.name for o in streamlist] + ['', '-> kill'])
 
 # only on pressing return
 if key == 0:
     if i == len(streamlist)+1:
         Stream.kill()
-    else: 
+    else:
         streamlist[i].run()

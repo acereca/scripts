@@ -50,7 +50,7 @@ def hook(d):
 # downloads
 ydl_options = {
     'outtmpl': f"{working_dir}/%(uploader)s: %(title)s.%(ext)s",
-    'playlistend': 10,
+    'playlistend': 40,
     'quiet': True,
     'writethumbnail': True,
     'download_archive': "./done.db",
@@ -79,11 +79,11 @@ for f in dl:
     m2 = regex_inner.match(m.group('rest'))
 
     if m2.group('artist'):
-        cmd[3] = m2.group('artist')
+        cmd[5] = m2.group('artist')
     else:
-        cmd[3] = m.group('uploader')
+        cmd[5] = m.group('uploader')
 
-    cmd[5] = m2.group("title")
+    cmd[3] = m2.group("title")
 
     subprocess.call(cmd)
 
