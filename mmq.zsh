@@ -4,6 +4,7 @@ MPVPIPE=/tmp/mpv_pipe
 
 if [ -z "$(pidof mpv)" ]; then
 
+    mkfifo ${MPVPIPE}
     /usr/bin/mpv --no-terminal --input-file="${MPVPIPE}" "${1}" & disown
 
     while [ -z "$(pidof mpv)" ]; do

@@ -28,7 +28,7 @@ def sorter(request):
         #     request.url.split('/')[3] +
         #     " at " + str(res[i]['height']) + "p'"
         # )
-        request.send_command(f'spawn mpv --ytdl-format="best[height<1100]" {request.url}')
+        request.send_command(f'spawn /home/patrick/github/scripts/mmq.zsh {request.url}')
     else:
         request.send_command('open ' + request.url)
 
