@@ -9,7 +9,7 @@ import argparse
 import youtube_dl as ydl
 
 # setup 
-regex_outer = re.compile(r"(?P<uploader>^[^:]+): (?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
+regex_outer = re.compile(r"(?P<uploader>^[^:]+) -- (?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
 regex_inner = re.compile(r"(?:(?P<artist>[^-]+)(?:\s+-\s+))?(?P<title>.+[^-\s])")
 
 color_codes = {
@@ -49,7 +49,7 @@ def hook(d):
 
 # downloads
 ydl_options = {
-    'outtmpl': f"{working_dir}/%(uploader)s: %(title)s.%(ext)s",
+    'outtmpl': f"{working_dir}/%(uploader)s -- %(title)s.%(ext)s",
     'playlistend': 40,
     'quiet': True,
     'writethumbnail': True,
@@ -73,6 +73,7 @@ dl = [f for f in os.listdir(working_dir) if os.path.isfile(os.path.join(working_
 print(f"\n{color_codes['green']}=> Updating id3 info of files in '{working_dir}'{color_codes['reset']}")
 
 for f in dl:
+    print(f)
     cmd = ['mid3v2', f"{working_dir}/{f}", '-t', '', '-a', '']
     m = regex_outer.match(f)
     uploader = m.group('uploader')
