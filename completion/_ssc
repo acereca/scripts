@@ -1,0 +1,23 @@
+#compdef ssc
+
+_ssc() {
+    local -a cmds
+    cmds=(
+        ''
+        'keepmenu'
+        'mmq'
+        'scpull'
+        'select.cfg'
+        'select.display'
+        'select.exit'
+        'select.mail'
+        'select.music'
+        'select.session'
+        'select.ssh'
+        'select.url'
+    )
+    _describe 'hi' cmds
+    return 0
+}
+
+_ssc
