@@ -9,8 +9,8 @@ import argparse
 import youtube_dl as ydl
 
 # setup 
-regex_outer = re.compile(r"(?P<uploader>^[^:]+): (?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
-regex_inner = re.compile(r"(?:(?P<artist>[^-]+)(?:\s+-\s+))?(?P<title>.+[^-\s])")
+regex_outer = re.compile(r"(?P<uploader>^[^:]+)\s--\s(?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
+regex_inner = re.compile(r"(?:(?P<artist>[a-zA-Z0-9 '(),.&]+)\s-\s)?(?P<title>[a-zA-Z0-9 '(),.&]+)")
 
 color_codes = {
     'green': '\033[1;32m',
@@ -49,7 +49,7 @@ def hook(d):
 
 # downloads
 ydl_options = {
-    'outtmpl': f"{working_dir}/%(uploader)s: %(title)s.%(ext)s",
+    'outtmpl': f"{working_dir}/%(uploader)s -- %(title)s.%(ext)s",
     'playlistend': 40,
     'quiet': True,
     'writethumbnail': True,
@@ -73,7 +73,7 @@ dl = [f for f in os.listdir(working_dir) if os.path.isfile(os.path.join(working_
 print(f"\n{color_codes['green']}=> Updating id3 info of files in '{working_dir}'{color_codes['reset']}")
 
 for f in dl:
-    cmd = ['mid3v2', f"{working_dir}/{f}", '-t', '', '-a', '']
+    cmd = ['mid3v2', f"{working_dir}/{f}", '-t', '', '-a', '', '-A', '']
     m = regex_outer.match(f)
     uploader = m.group('uploader')
     m2 = regex_inner.match(m.group('rest'))
@@ -84,6 +84,7 @@ for f in dl:
         cmd[5] = m.group('uploader')
 
     cmd[3] = m2.group("title")
+    cmd[7] = m2.group("title")
 
     subprocess.call(cmd)
 
