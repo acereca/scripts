@@ -1,7 +1,5 @@
 #! /usr/bin/zsh
 
-#mountpoint /mnt/psrv || sshfs bahamut:/ /mnt/psrv
-
 cd ~/gitlab/keys/
 git pull
 
