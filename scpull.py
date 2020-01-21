@@ -10,7 +10,7 @@ import youtube_dl as ydl
 
 # setup 
 regex_outer = re.compile(r"(?P<uploader>^[^:]+)\s--\s(?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
-regex_inner = re.compile(r"(?:(?P<artist>[a-zA-Z0-9 '(),.&]+)\s-\s)?(?P<title>[a-zA-Z0-9 '(),.&]+)")
+regex_inner = re.compile(r"(?:(?P<artist>[a-zA-Z0-9 '-_(),.&]+)\s-\s)?(?P<title>[a-zA-Z0-9 '(),.&]+)")
 
 color_codes = {
     'green': '\033[1;32m',
