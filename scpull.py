@@ -9,8 +9,8 @@ import argparse
 import youtube_dl as ydl
 
 # setup 
-regex_outer = re.compile(r"(?P<uploader>^[^:]+)\s--\s(?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
-regex_inner = re.compile(r"(?:(?P<artist>[a-zA-Z0-9 '(),.&]+)\s-\s)?(?P<title>[a-zA-Z0-9 '(),.&]+)")
+regex_outer = re.compile(r"(?P<uploader>^[^:]+)(\s--|:)\s(?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
+regex_inner = re.compile(r"(?:(?P<artist>[a-zA-Z0-9 '(),.&_]+)\s-\s)?(?P<title>[a-zA-Z0-9 '(),.&_]+)")
 
 color_codes = {
     'green': '\033[1;32m',
@@ -69,23 +69,39 @@ print("Done.")
 print(f"Downloaded {ydl_n} new tracks.")
 
 # processing of id3 tags
+def generate_id3tag(filepath):
+
+    regex_outer = re.compile(
+        r"(?P<uploader>^[^:]+)(\s--|:)\s(?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
+    regex_inner = re.compile(
+        r"(?:(?P<artist>[a-zA-Z0-9 '(),.&_]+)\s-\s)?(?P<title>[a-zA-Z0-9 '(),.&_]+)")
+    m = regex_outer.match(f)
+    m2 = regex_inner.match(m.group('rest'))
+
+    return {
+        "title": m2.group("title"),
+        "album": m2.group("title"),
+        "artist": m2.group("artist") if m2.group("artist") else m.group("uploader")
+    }
+
+
 dl = [f for f in os.listdir(working_dir) if os.path.isfile(os.path.join(working_dir,f))]
 print(f"\n{color_codes['green']}=> Updating id3 info of files in '{working_dir}'{color_codes['reset']}")
 
+print(working_dir)
 for f in dl:
-    cmd = ['mid3v2', f"{working_dir}/{f}", '-t', '', '-a', '', '-A', '']
-    m = regex_outer.match(f)
-    uploader = m.group('uploader')
-    m2 = regex_inner.match(m.group('rest'))
+    new_tags = generate_id3tag(working_dir + "/" + f)
 
-    if m2.group('artist'):
-        cmd[5] = m2.group('artist')
-    else:
-        cmd[5] = m.group('uploader')
-
-    cmd[3] = m2.group("title")
-    cmd[7] = m2.group("title")
-
+    cmd = [
+        'mid3v2',
+        os.path.abspath(working_dir + "/" + f),
+        '-t',
+        new_tags["title"],
+        '-a',
+        new_tags["artist"],
+        '-A',
+        new_tags["album"]
+    ]
     subprocess.call(cmd)
 
 print("\nDone.")
