@@ -7,13 +7,13 @@ if [ -z "$(pidof mpv)" ]; then
 
     mkfifo ${MPVPIPE} || echo ''
     echo "YT" > $HOME/.config/mpv/nowplaying
-    /usr/bin/mpv ${MPVFLAGS} --input-file="${MPVPIPE}" "${1}" & disown
+    /usr/bin/mpv ${MPVFLAGS} --input-file="${MPVPIPE}" "$(xclip -selection c -o)" & disown
 
     while [ -z "$(pidof mpv)" ]; do
         sleep 1
     done
 
 else
-    echo "loadfile \"${1}\" append-play" >> "${MPVPIPE}"
+    echo "loadfile \"$(xclip -selection c -o)\" append-play" >> "${MPVPIPE}"
 fi
 

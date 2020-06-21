@@ -72,7 +72,7 @@ print(f"Downloaded {ydl_n} new tracks.")
 def generate_id3tag(filepath):
 
     regex_outer = re.compile(
-        r"(?P<uploader>^[^:]+)(\s--|:)\s(?P<rest>[^\[\]]+)(?:\[.+\])*(?:\W+\w\w\w)$")
+        r"(?P<uploader>^[^:]+)(\s--|:)\s(?P<rest>.+)(?:\[.+\])*(?:\W+\w\w\w)$")
     regex_inner = re.compile(
         r"(?:(?P<artist>[a-zA-Z0-9 '(),.&_]+)\s-\s)?(?P<title>[a-zA-Z0-9 '(),.&_]+)")
     m = regex_outer.match(f)
@@ -90,6 +90,7 @@ print(f"\n{color_codes['green']}=> Updating id3 info of files in '{working_dir}'
 
 print(working_dir)
 for f in dl:
+    print(working_dir, f)
     new_tags = generate_id3tag(working_dir + "/" + f)
 
     cmd = [

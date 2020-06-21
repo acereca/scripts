@@ -10,33 +10,37 @@ class Stream(object):
     notify_cmd = 'dunstify'
 
     @staticmethod
-    def notify(msg: str, icon='player_play'):
-        subprocess.run([Stream.notify_cmd, '-r', '10010', '-i', icon, msg])
+    def notify(msg: str, icon='actions/player_play', title="MPV Playback"):
+        subprocess.run([Stream.notify_cmd, '-r', '10010', '-i', icon, title, msg])
+
+    def check_live(self):
+        subprocess.check_output
 
     def run(self):
         subprocess.Popen(
             [Stream.player, self.url, *self.options])
-        self.notify(f'started live playback of:<br/>{self.name}')
+        self.notify(self.rname)
         with open('/home/patrick/.config/mpv/nowplaying', 'w') as f:
-            f.write(self.name.split(": ")[1])
+            f.write(self.rname)
 
     @staticmethod
     def kill():
         subprocess.run(['pkill', Stream.player])
         with open('/home/patrick/.config/mpv/nowplaying', 'r+') as f:
             Stream.notify(
-                f'stopped live playback of:<br/>{f.readline()}',
-                'player_stop')
+                f.readline(),
+                'actions/player_stop')
             f.write('')
 
     def __init__(self, name: str, url: str):
         self.name = f"{len(streamlist)}: " + name
+        self.rname = name
         self.url = url
         streamlist.append(self)
 
 
 class YTStream(Stream):
-    options = ['--no-video', '--ytdl-format=94']
+    options = ['--no-video', '--ytdl-format=best[height<720]']
 
 
 class TWStream(Stream):
@@ -47,7 +51,7 @@ class TWStream(Stream):
 
 YTStream(
     "Future House Radio",
-    "https://www.youtube.com/watch?v=1V8loYV_IKo")
+    "https://www.youtube.com/watch?v=YR0ZjnpHKFg")
 
 TWStream(
     "Monstercat Radio",
@@ -55,11 +59,19 @@ TWStream(
 
 YTStream(
     "Random Chiptune Radio",
-    "https://www.youtube.com/watch?v=DZrg-dihRNo")
+    "https://www.youtube.com/channel/UCf69z7VtcSTygbNKdFn4ELg/live")
 
 YTStream(
     "Epic Music Radio",
     "https://www.youtube.com/channel/UC3zwjSYv4k5HKGXCHMpjVRg/live")
+
+YTStream(
+    "The Good Life Radio",
+    "https://www.youtube.com/channel/UChs0pSaEoNLV4mevBFGaoKA/live")
+
+YTStream(
+    "Electro Swing Radio",
+    "https://www.youtube.com/channel/UCl-Rh0PxCl0NblEbXIjeK3w/live")
 
 # rofi part
 r = rofi.Rofi()

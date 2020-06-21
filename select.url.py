@@ -4,7 +4,6 @@ from qutescript import userscript
 import rofi 
 import youtube_dl
 
-
 @userscript
 def sorter(request):
     if 'youtube' in request.url and 'watch' in request.url:
@@ -28,6 +27,8 @@ def sorter(request):
         #     request.url.split('/')[3] +
         #     " at " + str(res[i]['height']) + "p'"
         # )
+        request.send_command(f'spawn /home/patrick/github/scripts/mmq.zsh {request.url}')
+    elif 'twitch.tv' in request.url and 'videos' in request.url:
         request.send_command(f'spawn /home/patrick/github/scripts/mmq.zsh {request.url}')
     else:
         request.send_command('open ' + request.url)
