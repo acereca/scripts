@@ -1,0 +1,11 @@
+[project]
+name = "scripts"
+description = "acereca's scripts form a-z"
+version = "0.2.0"
+authors = [
+    { name = "AcerecA", email = "acereca@outlook.com" }
+]
+dependencies = [
+    "rich",
+    "pydantic"
+]
